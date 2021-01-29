@@ -40,6 +40,7 @@ public class Accounts {
      */
      public String getAccountNumber()
      {
+
          return accountNumber;
      }
          
@@ -51,6 +52,7 @@ public class Accounts {
      */
      public void setAccountNumber(String accNumber)
      { 
+
          accountNumber = accNumber;
      }  
 
@@ -62,6 +64,7 @@ public class Accounts {
      */
      public String getAccountType()
      {
+
          return accountType;
      }
          
@@ -73,6 +76,7 @@ public class Accounts {
      */
      public void setAccountType(String accType)
      { 
+
          accountType = accType;
      }  
        
@@ -142,7 +146,8 @@ public class Accounts {
          balance = bal;
      }           
          
-   /** 
+   /**
+    *
     * Create a String representation based on the Accounts Object
 	* 
 	* @return String representation
