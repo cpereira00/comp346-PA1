@@ -216,3 +216,18 @@ public class Client {
 	/* Implement the code for the run method */
     }
 }
+/*
+TO-DO
+~ client has 2 threads, 1 for sending the transactions, 1 for receiving complete transactions.
+~ 1 Network thread
+~ 1 server thread
+
+~ if input & output network buffers are full or empty each client or server thread must yield the cpu thread.yield();
+
+~ Network thread execute infinite loop that ends when client and server threads have disconnected.
+~ if client OR server threads are connected, cpu must yield().
+~ record running time of client and server threads
+~ provide output test cases w/ appropriate running times for client and server threads.
+~ Perform 3 diff. runs of program and explain why there is a difference in the running times.
+
+ */
