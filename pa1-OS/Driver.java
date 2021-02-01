@@ -9,6 +9,7 @@
  *
  * @author Kerly Titus
  */
+
 public class Driver {
 
     /** 
@@ -21,13 +22,15 @@ public class Driver {
     	  * TODO : implement all the operations of main class   																					*
     	  ******************************************************************************************************************************************/
         
-    	Network objNetwork = new Network("network");            /* Activate the network */
-        objNetwork.start();
-        Server objServer = new Server();                        /* Start the server */ 
-        objServer.start();
-        Client objClient1 = new Client("sending");              /* Start the sending client */
-        objClient1.start();
-        Client objClient2 = new Client("receiving");            /* Start the receiving client */
-        objClient2.start();
+    	Network networkThread = new Network("network");            /* Activate the network */
+        networkThread.start();
+
+        Server serverThread = new Server();                        /* Start the server */
+        serverThread.start();
+
+        Client clientReceiveThread = new Client("sending");              /* Start the sending client */
+        clientReceiveThread.start();
+        Client clientSendThread = new Client("receiving");            /* Start the receiving client */
+        clientSendThread.start();
     }
 }

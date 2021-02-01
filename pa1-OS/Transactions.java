@@ -15,7 +15,7 @@ public class Transactions {
     private String operationType;       /* Operation type : deposit, withdrawal, query */
     private double transactionAmount;   /* Amount to deposit or withdraw */
     private double transactionBalance;  /* Account balance after transaction */
-    private String transactionError;    /* Transaction error : NSF, invalid amount, invalind account, none */
+    private String transactionError;    /* Transaction error : NSF, invalid amount, invalid account, none */
     private String transactionStatus;   /* Current transaction status : pending, sent, received, transferred, done */
     
     /** Constructor method of Transactions class
@@ -92,7 +92,7 @@ public class Transactions {
      *  Mutator method of Transactions class
      * 
      * @return 
-     * @param transmount
+     * @param transAmount
      */
      public void setTransactionAmount(double transAmount)
      { 

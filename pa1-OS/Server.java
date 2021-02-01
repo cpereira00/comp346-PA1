@@ -15,7 +15,7 @@ import java.util.InputMismatchException;
  * @author Kerly Titus
  */
 
-public class Server {
+public class Server extends Thread {
   
 	int numberOfTransactions;         /* Number of transactions handled by the server */
 	int numberOfAccounts;             /* Number of accounts stored in the server */
@@ -310,8 +310,13 @@ public class Server {
     {   Transactions trans = new Transactions();
     	long serverStartTime, serverEndTime;
 
+    	serverStartTime = System.currentTimeMillis(); // start thread time
+
     	System.out.println("\n DEBUG : Server.run() - starting server thread " + objNetwork.getServerConnectionStatus());
-    	
+
+
+        serverEndTime = System.currentTimeMillis();
+
     	/* Implement the code for the run method */
         
         System.out.println("\n Terminating server thread - " + " Running time " + (serverEndTime - serverStartTime) + " milliseconds");
