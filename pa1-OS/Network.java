@@ -559,7 +559,7 @@ public class Network extends Thread {
 		/* Implement the code for the run method */
 
 
-
+            //loop
             if(disconnect(clientIP) == false && disconnect(serverIP) == false){
                 Thread.yield();
             }
