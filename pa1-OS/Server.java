@@ -306,8 +306,8 @@ public class Server extends Thread {
      * @return 
      * @param
      */
-    public void run()
-    {   Transactions trans = new Transactions();
+    public void run() {
+        Transactions trans = new Transactions();
     	long serverStartTime, serverEndTime;
 
     	serverStartTime = System.currentTimeMillis(); // start thread time

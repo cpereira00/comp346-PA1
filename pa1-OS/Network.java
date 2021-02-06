@@ -557,6 +557,18 @@ public class Network extends Thread {
     	while (true)
     	{
 		/* Implement the code for the run method */
-    	}    
+
+
+
+            if(disconnect(clientIP) == false && disconnect(serverIP) == false){
+                Thread.yield();
+            }
+            else{
+
+                return;
+            }
+
+    	}
+
     }
 }
