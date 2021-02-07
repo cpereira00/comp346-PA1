@@ -156,7 +156,10 @@ public class Client extends Thread {
          
          while (i < getNumberOfTransactions())
          {  
-            // while( objNetwork.getInBufferStatus().equals("full") );     /* Alternatively, busy-wait until the network input buffer is available */
+            while( objNetwork.getInBufferStatus().equals("full")) /* Alternatively, busy-wait until the network input buffer is available */
+            {
+                Thread.yield();
+            }
 
             transaction[i].setTransactionStatus("sent");   /* Set current transaction status */
            
@@ -179,7 +182,10 @@ public class Client extends Thread {
          
          while (i < getNumberOfTransactions())
          {     
-        	 // while( objNetwork.getOutBufferStatus().equals("empty"));  	/* Alternatively, busy-wait until the network output buffer is available */
+        	 while( objNetwork.getOutBufferStatus().equals("empty"))  	/* Alternatively, busy-wait until the network output buffer is available */
+             {
+                 Thread.yield();
+             }
 
             objNetwork.receive(transact);                               	/* Receive updated transaction from the network buffer */
             
@@ -212,10 +218,11 @@ public class Client extends Thread {
     	long sendClientStartTime, sendClientEndTime, receiveClientStartTime, receiveClientEndTime;
 
 
+            sendTransactions();
 
-        while(objNetwork.getInBufferStatus().equals("full") || objNetwork.getOutBufferStatus().equals("empty")){
-            Thread.yield();
-        }
+            receiveTransactions(transact);
+
+
 
 	/* Implement the code for the run method */
     }
@@ -234,4 +241,6 @@ TO-DO
 ~ provide output test cases w/ appropriate running times for client and server threads.
 ~ Perform 3 diff. runs of program and explain why there is a difference in the running times.
 
+
+disconnect after receive
  */

@@ -128,7 +128,7 @@ public class Server extends Thread {
         
         try
         {
-         inputStream = new Scanner(new FileInputStream("account.txt"));
+         inputStream = new Scanner(new FileInputStream("pa1-OS/account.txt"));
         }
         catch(FileNotFoundException e)
         {
@@ -192,8 +192,9 @@ public class Server extends Thread {
          /* Process the accounts until the client disconnects */
          while ((!objNetwork.getClientConnectionStatus().equals("disconnected")))
          { 
-        	 /* while( (objNetwork.getInBufferStatus().equals("empty"))); */  /* Alternatively, busy-wait until the network input buffer is available */
-        	 
+        	// while(objNetwork.getInBufferStatus().equals("empty"))  /* Alternatively, busy-wait until the network input buffer is available */
+
+
         	 if (!objNetwork.getInBufferStatus().equals("empty"))
         	 {
         		 System.out.println("\n DEBUG : Server.processTransactions() - transferring in account " + trans.getAccountNumber());
@@ -231,8 +232,11 @@ public class Server extends Thread {
                             System.out.println("\n DEBUG : Server.processTransactions() - Obtaining balance from account" + trans.getAccountNumber());
         				 } 
         		        		 
-        		 // while( (objNetwork.getOutBufferStatus().equals("full"))); /* Alternatively,  busy-wait until the network output buffer is available */
-                                                           
+        		 while (objNetwork.getOutBufferStatus().equals("full")) /* Alternatively,  busy-wait until the network output buffer is available */
+                 {
+                     Thread.yield();
+                 }
+
         		 System.out.println("\n DEBUG : Server.processTransactions() - transferring out account " + trans.getAccountNumber());
         		 
         		 objNetwork.transferOut(trans);                            		/* Transfer a completed transaction from the server to the network output buffer */
@@ -313,6 +317,13 @@ public class Server extends Thread {
     	serverStartTime = System.currentTimeMillis(); // start thread time
 
     	System.out.println("\n DEBUG : Server.run() - starting server thread " + objNetwork.getServerConnectionStatus());
+
+    	while(processTransactions(trans)){
+
+    	    if(objNetwork.getInBufferStatus().equals("empty")){
+    	        Thread.yield();
+            }
+        }
 
 
         serverEndTime = System.currentTimeMillis();
