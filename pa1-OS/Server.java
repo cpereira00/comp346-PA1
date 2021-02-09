@@ -191,9 +191,12 @@ public class Server extends Thread {
               
          /* Process the accounts until the client disconnects */
          while ((!objNetwork.getClientConnectionStatus().equals("disconnected")))
-         { 
-        	// while(objNetwork.getInBufferStatus().equals("empty"))  /* Alternatively, busy-wait until the network input buffer is available */
-
+         {
+             //checks again to make sure client hasn't disconnected, or else won't terminate
+        	while(objNetwork.getInBufferStatus().equals("empty") && !objNetwork.getClientConnectionStatus().equals("disconnected"))  /* Alternatively, busy-wait until the network input buffer is available */
+            {
+                Thread.yield();
+            }
 
         	 if (!objNetwork.getInBufferStatus().equals("empty"))
         	 {
@@ -318,12 +321,9 @@ public class Server extends Thread {
 
     	System.out.println("\n DEBUG : Server.run() - starting server thread " + objNetwork.getServerConnectionStatus());
 
-    	while(processTransactions(trans)){
 
-    	    if(objNetwork.getInBufferStatus().equals("empty")){
-    	        Thread.yield();
-            }
-        }
+    	processTransactions(trans);
+
 
 
         serverEndTime = System.currentTimeMillis();
@@ -331,7 +331,8 @@ public class Server extends Thread {
     	/* Implement the code for the run method */
         
         System.out.println("\n Terminating server thread - " + " Running time " + (serverEndTime - serverStartTime) + " milliseconds");
-           
+
+        objNetwork.setServerConnectionStatus("disconnected");
     }
 }
 

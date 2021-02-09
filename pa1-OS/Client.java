@@ -217,10 +217,18 @@ public class Client extends Thread {
     	Transactions transact = new Transactions();
     	long sendClientStartTime, sendClientEndTime, receiveClientStartTime, receiveClientEndTime;
 
+            if(this.getClientOperation().equals("sending")){
 
-            sendTransactions();
+                sendTransactions();
+            }
+            else{
+                receiveTransactions(transact);
 
-            receiveTransactions(transact);
+                objNetwork.setClientConnectionStatus("disconnected");
+            }
+
+
+
 
 
 
