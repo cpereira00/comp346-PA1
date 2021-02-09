@@ -321,8 +321,10 @@ public class Server extends Thread {
 
     	System.out.println("\n DEBUG : Server.run() - starting server thread " + objNetwork.getServerConnectionStatus());
 
-
-    	processTransactions(trans);
+        //idk about this
+    	if(!objNetwork.getServerConnectionStatus().equals("disconnected")){
+    	    processTransactions(trans);
+        }
 
 
 
