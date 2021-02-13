@@ -112,7 +112,7 @@ public class Client extends Thread {
         
         try
         {
-        	inputStream = new Scanner(new FileInputStream("transaction.txt"));
+        	inputStream = new Scanner(new FileInputStream("pa1-OS/transaction.txt"));
         }
         catch(FileNotFoundException e)
         {
@@ -219,12 +219,26 @@ public class Client extends Thread {
 
             if(this.getClientOperation().equals("sending")){
 
+                sendClientStartTime = System.currentTimeMillis();
+                System.out.println("****The sendClient start time is: "+sendClientStartTime);
+
                 sendTransactions();
+
+                sendClientEndTime = System.currentTimeMillis();
+                System.out.println("****The sendClient end time is: "+sendClientEndTime);
             }
             else{
+
+                receiveClientStartTime = System.currentTimeMillis();
+                System.out.println("****The receiveClient start time is: "+receiveClientStartTime);
+
                 receiveTransactions(transact);
 
-                objNetwork.setClientConnectionStatus("disconnected");
+                receiveClientEndTime = System.currentTimeMillis();
+                System.out.println("****The receiveClient end time is: "+receiveClientEndTime);
+
+
+                objNetwork.disconnect(objNetwork.getClientIP());
             }
 
 

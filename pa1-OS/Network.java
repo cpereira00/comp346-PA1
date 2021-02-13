@@ -560,15 +560,19 @@ public class Network extends Thread {
 
 
             //loop
-            if(disconnect(clientIP) == false && disconnect(serverIP) == false){
+            if(!getClientConnectionStatus().equals("disconnected") || !getServerConnectionStatus().equals("disconnected")){
+
                 Thread.yield();
             }
             else{
 
-                return;
+                break;
             }
 
     	}
+
+        System.out.println("\n (network) Terminating server thread - Client "+getClientConnectionStatus()+" Server "+getServerConnectionStatus());
+
 
     }
 }
