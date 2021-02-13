@@ -332,7 +332,7 @@ public class Server extends Thread {
 
     	/* Implement the code for the run method */
         
-        System.out.println("\n **Terminating server thread - " + " Running time " + (serverEndTime - serverStartTime) + " milliseconds");
+        System.out.println("\n **Terminating server thread - " + " Running time " + (serverEndTime - serverStartTime) + " Milliseconds");
 
         objNetwork.disconnect(objNetwork.getServerIP());
     }
