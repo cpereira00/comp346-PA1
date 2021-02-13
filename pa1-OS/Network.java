@@ -571,7 +571,7 @@ public class Network extends Thread {
 
     	}
 
-        System.out.println("\n (network) Terminating server thread - Client "+getClientConnectionStatus()+" Server "+getServerConnectionStatus());
+        System.out.println("\n Terminating Network thread - Client "+getClientConnectionStatus()+" Server "+getServerConnectionStatus());
 
 
     }
