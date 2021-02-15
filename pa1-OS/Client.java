@@ -105,14 +105,14 @@ public class Client extends Thread {
      * @return 
      * @param
      */
-     public void readTransactions()
-     {
+     public void readTransactions() {
+
         Scanner inputStream = null;     /* Transactions input file stream */
         int i = 0;                      /* Index of transactions array */
         
         try
         {
-        	inputStream = new Scanner(new FileInputStream("transaction.txt"));
+        	inputStream = new Scanner(new FileInputStream("pa1-OS/transaction.txt"));
         }
         catch(FileNotFoundException e)
         {
@@ -138,8 +138,8 @@ public class Client extends Thread {
             
         }
         setNumberOfTransactions(i);		/* Record the number of transactions processed */
-        
-        System.out.println("\n DEBUG : Client.readTransactions() - " + getNumberOfTransactions() + " transactions processed");
+
+        // System.out.println("\n DEBUG : Client.readTransactions() - " + getNumberOfTransactions() + " transactions processed");
         
         inputStream.close( );
 
@@ -151,22 +151,24 @@ public class Client extends Thread {
      * @return 
      * @param
      */
-     public void sendTransactions()
-     {
+     public void sendTransactions() {
          int i = 0;     /* index of transaction array */
          
          while (i < getNumberOfTransactions())
          {  
-            // while( objNetwork.getInBufferStatus().equals("full") );     /* Alternatively, busy-wait until the network input buffer is available */
-                                             	
+            while( objNetwork.getInBufferStatus().equals("full")) /* Alternatively, busy-wait until the network input buffer is available */
+            {
+                Thread.yield();
+            }
+
             transaction[i].setTransactionStatus("sent");   /* Set current transaction status */
            
-            System.out.println("\n DEBUG : Client.sendTransactions() - sending transaction on account " + transaction[i].getAccountNumber());
+           // System.out.println("\n DEBUG : Client.sendTransactions() - sending transaction on account " + transaction[i].getAccountNumber());
             
             objNetwork.send(transaction[i]);                            /* Transmit current transaction */
             i++;
          }
-         
+
     }
          
  	/** 
@@ -175,21 +177,23 @@ public class Client extends Thread {
      * @return 
      * @param transact
      */
-     public void receiveTransactions(Transactions transact)
-     {
+     public void receiveTransactions(Transactions transact) {
          int i = 0;     /* Index of transaction array */
          
          while (i < getNumberOfTransactions())
          {     
-        	 // while( objNetwork.getOutBufferStatus().equals("empty"));  	/* Alternatively, busy-wait until the network output buffer is available */
-                                                                        	
+        	 while( objNetwork.getOutBufferStatus().equals("empty"))  	/* Alternatively, busy-wait until the network output buffer is available */
+             {
+                 Thread.yield();
+             }
+
             objNetwork.receive(transact);                               	/* Receive updated transaction from the network buffer */
             
-            System.out.println("\n DEBUG : Client.receiveTransactions() - receiving updated transaction on account " + transact.getAccountNumber());
+            //System.out.println("\n DEBUG : Client.receiveTransactions() - receiving updated transaction on account " + transact.getAccountNumber());
             
             System.out.println(transact);                               	/* Display updated transaction */    
             i++;
-         } 
+         }
     }
      
     /** 
@@ -212,7 +216,37 @@ public class Client extends Thread {
     {   
     	Transactions transact = new Transactions();
     	long sendClientStartTime, sendClientEndTime, receiveClientStartTime, receiveClientEndTime;
-    
+
+            if(this.getClientOperation().equals("sending")){
+
+                sendClientStartTime = System.currentTimeMillis();
+                System.out.println("**The sendClient start time is: "+sendClientStartTime);
+
+                sendTransactions();
+
+                sendClientEndTime = System.currentTimeMillis();
+                System.out.println("**The sendClient end time is: "+sendClientEndTime);
+                System.out.println("\n*Terminating Client sending Thread, runtime: "+(sendClientEndTime-sendClientStartTime)+" Miliseconds");
+            }
+            else{
+
+                receiveClientStartTime = System.currentTimeMillis();
+                System.out.println("**The receiveClient start time is: "+receiveClientStartTime);
+
+                receiveTransactions(transact);
+
+                receiveClientEndTime = System.currentTimeMillis();
+                System.out.println("\n*Terminating Client receive Thread, runtime: "+(receiveClientEndTime-receiveClientStartTime)+" Miliseconds");
+
+
+                objNetwork.disconnect(objNetwork.getClientIP());
+            }
+
+
+
+
+
+
 	/* Implement the code for the run method */
     }
 }
@@ -230,4 +264,6 @@ TO-DO
 ~ provide output test cases w/ appropriate running times for client and server threads.
 ~ Perform 3 diff. runs of program and explain why there is a difference in the running times.
 
+
+disconnect after receive
  */

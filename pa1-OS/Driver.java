@@ -28,9 +28,11 @@ public class Driver {
         Server serverThread = new Server();                        /* Start the server */
         serverThread.start();
 
-        Client clientReceiveThread = new Client("receiving");              /* Start the sending client */
-        clientReceiveThread.start();
+
         Client clientSendThread = new Client("sending");            /* Start the receiving client */
         clientSendThread.start();
+        Client clientReceiveThread = new Client("receiving");              /* Start the sending client */
+        clientReceiveThread.start();
+
     }
 }
